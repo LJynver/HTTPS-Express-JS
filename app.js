@@ -15,12 +15,13 @@ app.get('/', (req, res) => {
 });
 
 const httpsOptions = {
-    key: fs.readFileSync(path.join(__dirname, 'cert', 'key.pem')),
-    cert: fs.readFileSync(path.join(__dirname, 'cert', 'cert.pem')) 
+    key: fs.readFileSync(path.join(__dirname, 'cert-2', 'localhost-key.pem')),
+    cert: fs.readFileSync(path.join(__dirname, 'cert-2', 'localhost.pem')) 
 }
 
 const server = https.createServer(httpsOptions, app);
 
 server.listen(port, () => {
   console.log(`Server is running on https://localhost:${port}`);
+  console.log(httpsOptions.cert)
 });
