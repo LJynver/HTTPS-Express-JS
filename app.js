@@ -14,24 +14,24 @@ app.use('/', (req, res) => {
   res.send('Hello World');
 });
 
-// const httpsOptions = {
-//   key: fs.readFileSync(path.join(__dirname, 'server.key')),// private key
-//   cert: fs.readFileSync(path.join(__dirname, 'server.crt'))// certificate
-// };
-
-// https.createServer(httpsOptions, app).listen(3000);
 const getLocalIP = () => {
     const networkInterfaces = os.networkInterfaces();
+
     // let ipAddress = `https://${getLocalIP()}:${port}`;
+    // console.log(networkInterfaces);
     let ipAddress = `127.0.0.1`; //in case the address can not be fetched
+
     for (const interface of Object.values(networkInterfaces)) {
         for (const interfaceDetails of interface) {
-            if (interfaceDetails.family === 'IPv4' && interfaceDetails.internal) {
+            if (interfaceDetails.family === 'IPv4' && !interfaceDetails.internal) {
                 ipAddress = interfaceDetails.address;
                 break;
             }
         }
     }
+
+    console.log(ipAddress);
+
     return ipAddress;
 };
 
