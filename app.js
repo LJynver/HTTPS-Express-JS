@@ -1,48 +1,26 @@
-console.log('SSL testing 1,2,3');
-
 const express = require('express');
+const dotenv = require('dotenv');
 const https = require('https');
-const path = require('path');
 const fs = require('fs');
-const os = require('os');
-
-const port = 443;
+const path = require('path');
 
 const app = express();
+const morgan = require('morgan');
+const port = process.env.PORT || 3443;
 
-app.use('/', (req, res) => {
-  res.send('Hello World');
+app.use(morgan('dev'));
+
+app.get('/', (req, res) => {
+  res.send('Hello, welcome to the HTTPS website! 🚀');
 });
 
-const getLocalIP = () => {
-    const networkInterfaces = os.networkInterfaces();
-
-    // let ipAddress = `https://${getLocalIP()}:${port}`;
-    // console.log(networkInterfaces);
-    let ipAddress = `127.0.0.1`; //in case the address can not be fetched
-
-    for (const interface of Object.values(networkInterfaces)) {
-        for (const interfaceDetails of interface) {
-            if (interfaceDetails.family === 'IPv4' && !interfaceDetails.internal) {
-                ipAddress = interfaceDetails.address;
-                break;
-            }
-        }
-    }
-
-    console.log(ipAddress);
-
-    return ipAddress;
-};
-
-const ipAddress = getLocalIP();
-
-const httpsServer = https.createServer({
+const httpsOptions = {
     key: fs.readFileSync(path.join(__dirname, 'cert', 'key.pem')),
-    cert: fs.readFileSync(path.join(__dirname, 'cert', 'cert.pem'))
-}, app)
+    cert: fs.readFileSync(path.join(__dirname, 'cert', 'cert.pem')) 
+}
 
+const server = https.createServer(httpsOptions, app);
 
-httpsServer.listen(443, '0.0.0.0', () => {
-    console.log(`Listening on port ${ipAddress}:${port}`);
+server.listen(port, () => {
+  console.log(`Server is running on https://localhost:${port}`);
 });
