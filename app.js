@@ -10,8 +10,11 @@ const port = 443;
 
 const app = express();
 
+app.use(express.static('public'));
+
 app.use('/', (req, res) => {
   res.send('Hello World');
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 const getLocalIP = () => {
@@ -19,6 +22,7 @@ const getLocalIP = () => {
 
     // let ipAddress = `https://${getLocalIP()}:${port}`;
     // console.log(networkInterfaces);
+    
     let ipAddress = `127.0.0.1`; //in case the address can not be fetched
 
     for (const interface of Object.values(networkInterfaces)) {
