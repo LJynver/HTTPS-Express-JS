@@ -43,6 +43,6 @@ const httpsServer = https.createServer({
 }, app)
 
 
-httpsServer.listen(s443, '0.0.0.0', () => {
+httpsServer.listen(443, '0.0.0.0', () => {
     console.log(`Listening on port ${ipAddress}:${port}`);
 });
