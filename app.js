@@ -5,6 +5,8 @@ const https = require('https');
 const path = require('path');
 const fs = require('fs');
 
+const port = 443;
+
 const app = express();
 
 app.use('/', (req, res) => {
@@ -23,6 +25,6 @@ const httpsServer = https.createServer({
     cert: fs.readFileSync(path.join(__dirname, 'cert', 'cert.pem'))
 }, app)
 
-httpsServer.listen(3443, () => {
-    console.log('Listening on port 3000');
+httpsServer.listen(443, () => {
+    console.log(`Listening on port ${port}`);
 });
